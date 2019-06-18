@@ -1,0 +1,26 @@
+version: "3"
+services:
+  goose:
+    image: docked/goose
+    build:
+      context: .
+      dockerfile: docker/goose/Dockerfile
+    working_dir: /go/goose
+    volumes:
+      - .:/go/goose
+
+  postgres:
+    image: postgres:10.0-alpine
+    ports:
+      - 5555:5432
+    volumes:
+      - psql_data:/var/lib/postgresql/data/pg_data
+    environment:
+      POSTGRES_PASSWORD: local
+      POSTGRES_DB: local
+      POSTGRES_USER: local
+      POSTGRES_PORT: 5432
+      PGDATA: /var/lib/postgresql/data/pg_data
+
+volumes:
+  psql_data:
